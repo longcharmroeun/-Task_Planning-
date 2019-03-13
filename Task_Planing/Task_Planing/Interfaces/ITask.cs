@@ -12,8 +12,9 @@ namespace Task_Planing.Interfaces
         /// <summary>
         /// Name of Task
         /// </summary>
-        /// <returns></returns>
+        /// <returns>String</returns>
         DateTime Date_Execution { get; set; }
         Class.Prioritize Prioritize { get; set; }
+        string Comment { get; set; }
     }
 }

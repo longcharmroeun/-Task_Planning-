@@ -11,6 +11,8 @@ namespace Task_Planing.Class
         public DateTime Date_Execution { get; set; }
         [JsonProperty("Prioritize", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public Prioritize Prioritize { get; set; }
+        [JsonProperty("Comment", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public string Comment {get;set;}
     }
     public enum Prioritize
     {

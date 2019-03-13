@@ -37,6 +37,8 @@
             this.Low_radiobox = new DarkUI.Controls.DarkRadioButton();
             this.ok_bt = new DarkUI.Controls.DarkButton();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.darkTextBox2 = new DarkUI.Controls.DarkTextBox();
+            this.darkTitle4 = new DarkUI.Controls.DarkTitle();
             this.SuspendLayout();
             // 
             // darkTitle1
@@ -114,7 +116,7 @@
             // 
             this.ok_bt.AutoSize = true;
             this.ok_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ok_bt.Location = new System.Drawing.Point(99, 139);
+            this.ok_bt.Location = new System.Drawing.Point(99, 183);
             this.ok_bt.Name = "ok_bt";
             this.ok_bt.Padding = new System.Windows.Forms.Padding(5);
             this.ok_bt.Size = new System.Drawing.Size(105, 37);
@@ -134,11 +136,34 @@
             this.maskedTextBox1.TabIndex = 9;
             this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
             // 
+            // darkTextBox2
+            // 
+            this.darkTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.darkTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.darkTextBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkTextBox2.Location = new System.Drawing.Point(99, 139);
+            this.darkTextBox2.Name = "darkTextBox2";
+            this.darkTextBox2.Size = new System.Drawing.Size(169, 23);
+            this.darkTextBox2.TabIndex = 11;
+            // 
+            // darkTitle4
+            // 
+            this.darkTitle4.AutoSize = true;
+            this.darkTitle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.darkTitle4.Location = new System.Drawing.Point(12, 139);
+            this.darkTitle4.Name = "darkTitle4";
+            this.darkTitle4.Size = new System.Drawing.Size(67, 17);
+            this.darkTitle4.TabIndex = 10;
+            this.darkTitle4.Text = "Comment";
+            // 
             // CreateTaskDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 203);
+            this.ClientSize = new System.Drawing.Size(329, 245);
+            this.Controls.Add(this.darkTextBox2);
+            this.Controls.Add(this.darkTitle4);
             this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.ok_bt);
             this.Controls.Add(this.Low_radiobox);
@@ -166,5 +191,7 @@
         public DarkUI.Controls.DarkRadioButton Hight_radiobox;
         public DarkUI.Controls.DarkRadioButton Low_radiobox;
         public System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        public DarkUI.Controls.DarkTextBox darkTextBox2;
+        private DarkUI.Controls.DarkTitle darkTitle4;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task_Planing.Interfaces;
+using System.IO;
 
 namespace Task_Planing.Class
 {
@@ -23,7 +24,6 @@ namespace Task_Planing.Class
             }
             catch (ArgumentOutOfRangeException)
             {
-                throw;
             }
         }
 
@@ -50,11 +50,22 @@ namespace Task_Planing.Class
     public partial class ListTasks
     {
         public static ListTasks FromJson(string json) => JsonConvert.DeserializeObject<ListTasks>(json, Task_Planing.Class.Converter.Settings);
+        public static void Read(ref ListTasks listTasks)
+        {
+            try
+            {
+                listTasks = Class.ListTasks.FromJson(File.ReadAllText("Data.json"));
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+            }
+        }
     }
 
     public static class Serialize
     {
         public static string ToJson(this ListTasks self) => JsonConvert.SerializeObject(self, Task_Planing.Class.Converter.Settings);
+        public static void Save(this ListTasks selt) => File.WriteAllText("Data.json", selt.ToJson());
     }
 
     internal static class Converter
