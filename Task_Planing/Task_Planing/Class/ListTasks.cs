@@ -96,7 +96,7 @@ namespace Task_Planing.Class
                     TaskDefinition td = ts.NewTask();
                     td.RegistrationInfo.Description = task.Comment;
                     td.Triggers.Add(new TimeTrigger() { StartBoundary = task.Date_Execution });
-                    td.Actions.Add(new ExecAction(System.Environment.CurrentDirectory + @"\Task_Planing.exe", null, null));
+                    td.Actions.Add(new ExecAction(System.Environment.CurrentDirectory + @"\Task_Planing.exe", $"{task.TaskName} {task.Comment}", null));
                     ts.RootFolder.RegisterTaskDefinition(@"Task_Planing\" + task.TaskName, td);
                 }
             }
