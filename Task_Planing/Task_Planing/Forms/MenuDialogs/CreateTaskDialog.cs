@@ -5,8 +5,6 @@ namespace Task_Planing.Forms.MenuDialogs
 {
     public partial class CreateTaskDialog : DarkForm
     {
-        private Class.ListTasks ListTasks;
-
         public Class.Prioritize GetPrioritize()
         {
             if (Normal_radiobox.Checked) return Class.Prioritize.Normal;
@@ -28,14 +26,13 @@ namespace Task_Planing.Forms.MenuDialogs
             maskedTextBox1.Text = System.DateTime.Now.ToString("MM/dd/yyyy H:mm");
         }
 
-        public CreateTaskDialog(Class.ListTasks listTasks, int Index)
+        public CreateTaskDialog(Class.Task task)
         {
             InitializeComponent();
             Normal_radiobox.Checked = true;
-            this.ListTasks = listTasks;
-            darkTextBox1.Text = listTasks.Tasks.ElementAt(Index).TaskName;
-            maskedTextBox1.Text = listTasks.Tasks.ElementAt(Index).Date_Execution.ToString();
-            SetPrioritize(listTasks.Tasks.ElementAt(Index).Prioritize);
+            maskedTextBox1.Text = task.Date_Execution.ToString("MM/dd/yyyy H:mm");
+            darkTextBox1.Text = task.TaskName;
+            SetPrioritize(task.Prioritize);
         }
 
         private void ok_bt_Click(object sender, System.EventArgs e)

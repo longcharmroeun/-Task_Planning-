@@ -19,24 +19,30 @@ namespace Task_Planing.Forms
         {
             InitializeComponent();
             listTasks = new ListTasks();
+            Text = System.Environment.CurrentDirectory+ @"\Task_Planing.exe";
+        }
+
+        private void ListTasks_TaskEvent(object sender, Task e)
+        {
+            MessageBox.Show(e.Comment);
         }
         #endregion
-
         private void createToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             createTaskDialog = new CreateTaskDialog();
             createTaskDialog.ShowDialog();
             if(createTaskDialog.DialogResult == DialogResult.OK)
             {
-                listTasks.Tasks.Add(new Task() { TaskName = createTaskDialog.darkTextBox1.Text, Date_Execution = System.DateTime.Parse(createTaskDialog.maskedTextBox1.Text), Prioritize = createTaskDialog.GetPrioritize(), Comment = createTaskDialog.darkTextBox2.Text });
-                TaskList.Items.Add(new DarkListItem(listTasks.Tasks.Last<Task>().TaskName));
-                listTasks.Save();
+                Class.Task task = new Class.Task() { TaskName = createTaskDialog.darkTextBox1.Text, Date_Execution = System.DateTime.Parse(createTaskDialog.maskedTextBox1.Text), Prioritize = createTaskDialog.GetPrioritize(), Comment = createTaskDialog.darkTextBox2.Text };
+                listTasks.Tasks.Add(task);
+                TaskList.Items.Add(new DarkListItem(listTasks.Tasks.Last<Class.Task>().TaskName));
+                task.Create();
             }
         }
 
         private void MainForm_Load(object sender, System.EventArgs e)
         {
-            Class.ListTasks.Read(ref listTasks);
+            listTasks = Class.ListTasks.Load();
             foreach (var item in listTasks.Tasks)
             {
                 TaskList.Items.Add(new DarkListItem(item.TaskName));
@@ -45,9 +51,14 @@ namespace Task_Planing.Forms
 
         private void deleteToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Delete();
             listTasks.Delete(TaskList.SelectedIndices[0]);
-            listTasks.Save();
             TaskList.Items.RemoveAt(TaskList.SelectedIndices[0]);
+            if (TaskList.Items.Count <= 0)
+            {
+                deleteToolStripMenuItem.Enabled = false;
+                modifyToolStripMenuItem.Enabled = false;
+            }
         }
 
         private void TaskList_SelectedIndicesChanged(object sender, System.EventArgs e)
@@ -62,6 +73,7 @@ namespace Task_Planing.Forms
                     prioritize_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Prioritize.ToString();
                     Comment_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Comment.ToString();
                 }
+                
             }
             catch (System.ArgumentOutOfRangeException)
             {
@@ -70,7 +82,7 @@ namespace Task_Planing.Forms
 
         private void modifyToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            createTaskDialog = new CreateTaskDialog(listTasks, TaskList.SelectedIndices[0]);
+            createTaskDialog = new CreateTaskDialog(listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]));
             createTaskDialog.ShowDialog();
             if (createTaskDialog.DialogResult == DialogResult.OK)
             {
@@ -79,7 +91,7 @@ namespace Task_Planing.Forms
                 listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Comment = createTaskDialog.darkTextBox2.Text;
                 listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Date_Execution = System.DateTime.Parse(createTaskDialog.maskedTextBox1.Text);
                 TaskList.Items.ElementAt(TaskList.SelectedIndices[0]).Text = createTaskDialog.darkTextBox1.Text;
-                listTasks.Save();
+                listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Modify();
             }
         }
     }

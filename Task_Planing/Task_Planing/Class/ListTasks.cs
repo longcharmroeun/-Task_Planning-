@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Task_Planing.Interfaces;
 using System.IO;
+using Microsoft.Win32.TaskScheduler;
 
 namespace Task_Planing.Class
 {
@@ -49,35 +50,72 @@ namespace Task_Planing.Class
 
     public partial class ListTasks
     {
-        public static ListTasks FromJson(string json) => JsonConvert.DeserializeObject<ListTasks>(json, Task_Planing.Class.Converter.Settings);
-        public static void Read(ref ListTasks listTasks)
+        public static ListTasks ListTaskFromJson(string json) => JsonConvert.DeserializeObject<ListTasks>(json, Task_Planing.Class.Converter.Settings);
+        public static ListTasks Load()
         {
-            try
+            ListTasks listTasks = new ListTasks();
+            using (TaskService ts = new TaskService())
             {
-                listTasks = Class.ListTasks.FromJson(File.ReadAllText("Data.json"));
+                var TaskFolder =  ts.GetFolder("Task_Planing");
+                foreach (var item in TaskFolder.AllTasks)
+                {
+                    listTasks.Tasks.Add(new Task() { TaskName = item.Name, Comment = item.Definition.RegistrationInfo.Description, Date_Execution = item.Definition.Triggers.First().StartBoundary });
+                }
             }
-            catch (System.IO.FileNotFoundException)
-            {
-            }
+            return listTasks;
         }
+        public static Task TaskFromJson(string json) => JsonConvert.DeserializeObject<Task>(json, Task_Planing.Class.Converter.Settings);
     }
 
     public static class Serialize
     {
         public static string ToJson(this ListTasks self) => JsonConvert.SerializeObject(self, Task_Planing.Class.Converter.Settings);
-        public static void Save(this ListTasks selt) => File.WriteAllText("Data.json", selt.ToJson());
+        public static void Create(this Task task)
+        {
+            using (TaskService ts = new TaskService())
+            {
+                TaskDefinition td = ts.NewTask();
+                td.RegistrationInfo.Description = task.Comment;
+                td.Triggers.Add(new TimeTrigger() { StartBoundary = task.Date_Execution });
+                td.Actions.Add(new ExecAction(System.Environment.CurrentDirectory + @"\Task_Planing.exe", $"{task.TaskName} {task.Comment}", null));
+                ts.RootFolder.RegisterTaskDefinition(@"Task_Planing\" + task.TaskName, td);
+            }
+        }
+        public static void Delete(this Task task)
+        {
+            using (TaskService ts = new TaskService())
+            {
+                if (ts.GetTask(@"Task_Planing\" + task.TaskName) != null)
+                {
+                    ts.RootFolder.DeleteTask(@"Task_Planing\" + task.TaskName);
+                }
+            }
+        }
+        public static void Modify(this Task task)
+        {
+            using (TaskService ts = new TaskService())
+            {
+                if (ts.GetTask(@"Task_Planing\" + task.TaskName) != null)
+                {
+                    ts.RootFolder.DeleteTask(@"Task_Planing\" + task.TaskName);
+                    TaskDefinition td = ts.NewTask();
+                    td.RegistrationInfo.Description = task.Comment;
+                    td.Triggers.Add(new TimeTrigger() { StartBoundary = task.Date_Execution });
+                    td.Actions.Add(new ExecAction(System.Environment.CurrentDirectory + @"\Task_Planing.exe", null, null));
+                    ts.RootFolder.RegisterTaskDefinition(@"Task_Planing\" + task.TaskName, td);
+                }
+            }
+        }
+        public static string ToJson(this Task task) => JsonConvert.SerializeObject(task, Task_Planing.Class.Converter.Settings);
     }
 
     internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
+            DateFormatString = "MM/dd/yyyy H:mm",
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            Formatting = Formatting.Indented
         };
     }
 }
