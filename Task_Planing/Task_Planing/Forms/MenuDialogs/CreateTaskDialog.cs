@@ -25,6 +25,7 @@ namespace Task_Planing.Forms.MenuDialogs
         {
             InitializeComponent();
             Normal_radiobox.Checked = true;
+            maskedTextBox1.Text = System.DateTime.Now.ToString("MM/dd/yyyy H:mm");
         }
 
         public CreateTaskDialog(Class.ListTasks listTasks, int Index)
