@@ -19,12 +19,6 @@ namespace Task_Planing.Forms
         {
             InitializeComponent();
             listTasks = new ListTasks();
-            Text = System.Environment.CurrentDirectory+ @"\Task_Planing.exe";
-        }
-
-        private void ListTasks_TaskEvent(object sender, Task e)
-        {
-            MessageBox.Show(e.Comment);
         }
         #endregion
         private void createToolStripMenuItem_Click(object sender, System.EventArgs e)
