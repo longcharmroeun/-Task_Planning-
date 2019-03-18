@@ -1,0 +1,2 @@
+# -Task_Planning-
+Task Implement the simplest task planning system using the patterns. There should be an opportunity to create a list of tasks, prioritize, set execution dates, delete and change tasks. Tag can be set to each task. A list of tasks can be downloaded and saved into file. It is required to implement a possibility of searching for a concrete task. Search criteria are the following: by date, tag, priority etc. 
