@@ -70,6 +70,12 @@
     <Compile Include="Forms\MenuDialogs\CreateTaskDialog.Designer.cs">
       <DependentUpon>CreateTaskDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\MenuDialogs\DateSearchDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MenuDialogs\DateSearchDialog.Designer.cs">
+      <DependentUpon>DateSearchDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MenuDialogs\TaskEventDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MenuDialogs\CreateTaskDialog.resx">
       <DependentUpon>CreateTaskDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MenuDialogs\DateSearchDialog.resx">
+      <DependentUpon>DateSearchDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MenuDialogs\TaskEventDialog.resx">
       <DependentUpon>TaskEventDialog.cs</DependentUpon>

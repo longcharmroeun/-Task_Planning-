@@ -3,6 +3,7 @@ namespace Task_Planing.Forms.MenuDialogs
 {
     public partial class CreateTaskDialog : DarkForm
     {
+        #region Method Region
         public Class.Prioritize GetPrioritize()
         {
             if (Normal_radiobox.Checked) return Class.Prioritize.Normal;
@@ -33,11 +34,14 @@ namespace Task_Planing.Forms.MenuDialogs
             darkTextBox2.Text = task.Comment;
             SetPrioritize(task.Prioritize);
         }
+        #endregion
 
+        #region Event Region
         private void ok_bt_Click(object sender, System.EventArgs e)
         {
             GetPrioritize();
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
+        #endregion
     }
 }

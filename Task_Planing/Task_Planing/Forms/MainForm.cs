@@ -12,6 +12,7 @@ namespace Task_Planing.Forms
         #region Field Region
         private CreateTaskDialog createTaskDialog;
         private ListTasks listTasks;
+        private DateSearchDialog DateSearchDialog;
         #endregion
 
         #region Constructor Region
@@ -21,18 +22,8 @@ namespace Task_Planing.Forms
             listTasks = new ListTasks();
         }
         #endregion
-        private void createToolStripMenuItem_Click(object sender, System.EventArgs e)
-        {
-            createTaskDialog = new CreateTaskDialog();
-            createTaskDialog.ShowDialog();
-            if(createTaskDialog.DialogResult == DialogResult.OK)
-            {
-                Class.Task task = new Class.Task() { TaskName = createTaskDialog.darkTextBox1.Text, Date_Execution = System.DateTime.Parse(createTaskDialog.maskedTextBox1.Text), Prioritize = createTaskDialog.GetPrioritize(), Comment = createTaskDialog.darkTextBox2.Text };
-                listTasks.Tasks.Add(task);
-                TaskList.Items.Add(new DarkListItem(listTasks.Tasks.Last<Class.Task>().TaskName));
-                task.Create();
-            }
-        }
+
+        #region Event Region
 
         private void MainForm_Load(object sender, System.EventArgs e)
         {
@@ -40,6 +31,26 @@ namespace Task_Planing.Forms
             foreach (var item in listTasks.Tasks)
             {
                 TaskList.Items.Add(new DarkListItem(item.TaskName));
+            }
+        }
+
+        private void createToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            createTaskDialog = new CreateTaskDialog();
+            createTaskDialog.ShowDialog();
+            if(createTaskDialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    Class.Task task = new Class.Task() { TaskName = createTaskDialog.darkTextBox1.Text, Date_Execution = System.DateTime.Parse(createTaskDialog.maskedTextBox1.Text), Prioritize = createTaskDialog.GetPrioritize(), Comment = createTaskDialog.darkTextBox2.Text };
+                    listTasks.Tasks.Add(task);
+                    TaskList.Items.Add(new DarkListItem(listTasks.Tasks.Last<Class.Task>().TaskName));
+                    task.Create();
+                }
+                catch (System.FormatException)
+                {
+                    DarkMessageBox.ShowError("Please enter the correct format", "Format error!");
+                }
             }
         }
 
@@ -88,5 +99,37 @@ namespace Task_Planing.Forms
                 listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Modify();
             }
         }
+
+        private void dateToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            DateSearchDialog = new DateSearchDialog();
+            DateSearchDialog.ShowDialog();
+            if(DateSearchDialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    int[] tmp = listTasks.DateSearch(System.DateTime.Parse(DateSearchDialog.maskedTextBox1.Text), System.DateTime.Parse(DateSearchDialog.maskedTextBox2.Text));
+                    foreach (var item in tmp)
+                    {
+                        TaskList.Items.ElementAt(item).TextColor = System.Drawing.Color.Green;
+                    }
+                }
+                catch (System.FormatException)
+                {
+                    DarkMessageBox.ShowError("Please enter the correct format", "Format error!");
+                }
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            foreach (var item in TaskList.Items)
+            {
+                item.TextColor = System.Drawing.Color.White;
+            }
+            TaskList.Invalidate();
+        }
+
+        #endregion
     }
 }

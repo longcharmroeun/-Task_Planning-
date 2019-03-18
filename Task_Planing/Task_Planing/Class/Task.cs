@@ -5,6 +5,7 @@ namespace Task_Planing.Class
 {
     public class Task : Interfaces.ITask
     {
+        #region Property Region
         [JsonProperty("TaskName", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string TaskName { get; set; }
         [JsonProperty("Date_Execution", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
@@ -13,6 +14,7 @@ namespace Task_Planing.Class
         public Prioritize Prioritize { get; set; }
         [JsonProperty("Comment", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Comment {get;set;}
+        #endregion
     }
     public enum Prioritize
     {
