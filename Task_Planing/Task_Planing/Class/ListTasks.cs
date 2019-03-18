@@ -52,9 +52,12 @@ namespace Task_Planing.Class
             using (TaskService ts = new TaskService())
             {
                 var TaskFolder =  ts.GetFolder("Task_Planing");
-                foreach (var item in TaskFolder.AllTasks)
+                if (TaskFolder != null)
                 {
-                    listTasks.Tasks.Add(new Task() { TaskName = item.Name, Comment = item.Definition.RegistrationInfo.Description, Date_Execution = item.Definition.Triggers.First().StartBoundary });
+                    foreach (var item in TaskFolder.AllTasks)
+                    {
+                        listTasks.Tasks.Add(new Task() { TaskName = item.Name, Comment = item.Definition.RegistrationInfo.Description, Date_Execution = item.Definition.Triggers.First().StartBoundary });
+                    }
                 }
             }
             return listTasks;
@@ -92,7 +95,6 @@ namespace Task_Planing.Class
             {
                 if (ts.GetTask(@"Task_Planing\" + task.TaskName) != null)
                 {
-                    ts.RootFolder.DeleteTask(@"Task_Planing\" + task.TaskName);
                     TaskDefinition td = ts.NewTask();
                     td.RegistrationInfo.Description = task.Comment;
                     td.Triggers.Add(new TimeTrigger() { StartBoundary = task.Date_Execution });

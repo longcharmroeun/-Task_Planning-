@@ -63,7 +63,7 @@ namespace Task_Planing.Forms
                 {
                     deleteToolStripMenuItem.Enabled = true;
                     modifyToolStripMenuItem.Enabled = true;
-                    Date_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Date_Execution.ToString();
+                    Date_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Date_Execution.ToString("MM/dd/yyyy HH:mm");
                     prioritize_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Prioritize.ToString();
                     Comment_Label.Text = listTasks.Tasks.ElementAt(TaskList.SelectedIndices[0]).Comment.ToString();
                 }

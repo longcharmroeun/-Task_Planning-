@@ -21,15 +21,16 @@ namespace Task_Planing.Forms.MenuDialogs
         {
             InitializeComponent();
             Normal_radiobox.Checked = true;
-            maskedTextBox1.Text = System.DateTime.Now.ToString("MM/dd/yyyy H:mm");
+            maskedTextBox1.Text = System.DateTime.Now.ToString("MM/dd/yyyy HH:mm");
         }
 
         public CreateTaskDialog(Class.Task task)
         {
             InitializeComponent();
             Normal_radiobox.Checked = true;
-            maskedTextBox1.Text = task.Date_Execution.ToString("MM/dd/yyyy H:mm");
+            maskedTextBox1.Text = task.Date_Execution.ToString("MM/dd/yyyy HH:mm");
             darkTextBox1.Text = task.TaskName;
+            darkTextBox2.Text = task.Comment;
             SetPrioritize(task.Prioritize);
         }
 
